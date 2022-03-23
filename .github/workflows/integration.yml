@@ -1,0 +1,62 @@
+name: Integration
+
+# These jobs will run on push to main or a merge to main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+# Build is the name of the job. Can call it whatever we want
+  build:
+
+    # Runs on a server hosted by GitHub
+    runs-on: ubuntu-latest
+
+    # Allows to specify different versions of things. Can also have operating systems. 
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    # Steps that we need to take to run the jobs correctly
+    steps:
+      # uses means that it is using actions from the community. Checkouts into the branch we created the PR in.
+    - uses: actions/checkout@v2
+      # Name is just the name of the step
+    - name: Use Node.js ${{ matrix.node-version }}
+      # Setups all 3 node versions
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    # Install and then build
+    - run: npm i
+    - run: npm run build
+  unit-tests:
+
+    # Runs on a server hosted by GitHub
+    runs-on: ubuntu-latest
+
+    # Allows to specify different versions of things. Can also have operating systems. 
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    # Steps that we need to take to run the jobs correctly
+    steps:
+      # uses means that it is using actions from the community. Checkouts into the branch we created the PR in.
+    - uses: actions/checkout@v2
+      # Name is just the name of the step
+    - name: Use Node.js ${{ matrix.node-version }}
+      # Setups all 3 node versions
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    # Install and then test
+    - run: npm i
+    - run: npm run test
+
