@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build: # run unit tests
     runs-on: ubuntu-latest
 
     strategy:
@@ -24,7 +24,8 @@ jobs:
           cache: 'npm'
       - run: npm i
       - run: npm run build
-  unit-tests:
+
+  unit-tests: # run unit tests
     runs-on: ubuntu-latest
 
     strategy:
