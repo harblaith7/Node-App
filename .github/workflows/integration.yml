@@ -1,5 +1,8 @@
 name: Integration
 
+//on pull request, and when we want to merge this PR into the main branch, run the jobs. Also for when we want to 
+//push into the main branch run these jobs
+
 on:
   push:
     branches: [main]
@@ -7,7 +10,24 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build: # THIS IS A BUILD JIB BLOCK - yours can call it anything i.e contracts
+    runs-on: ubuntu-latest        #which server it runs    
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps: 
+      - uses: actions/checkout@v2  ##
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm i  #install all our dependecies
+      - run: npm run build  ##build
+  unit-tests: ## UNIT TEST JOB BLOCK to automate the tests
     runs-on: ubuntu-latest
 
     strategy:
@@ -23,21 +43,4 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm i
-      - run: npm run build
-  unit-tests:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - run: npm i
-      - run: npm run test
+      - run: npm run test ## run the tests 
