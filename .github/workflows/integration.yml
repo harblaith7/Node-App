@@ -1,6 +1,7 @@
 name: Integration
 
 on:
+<<<<<<< HEAD
   push:
     branches: [ main ]
   pull_request:
@@ -52,3 +53,21 @@ jobs:
         cache: 'npm'
     - run: npm i
     - run: npm run test
+=======
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    run-on: ubuntu-latest
+    steps:
+    - uses: action/checkout@v2
+    - uses: action/setup-node@v2
+    with:
+      node-version: 16.x
+      cache: 'npm'
+    - run: npm i
+    - run: npm run build
+>>>>>>> cce728c (add github action)
