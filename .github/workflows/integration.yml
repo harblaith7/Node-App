@@ -1,7 +1,6 @@
 name: Integration
 
 on:
-<<<<<<< HEAD
   push:
     branches: [ main ]
   pull_request:
