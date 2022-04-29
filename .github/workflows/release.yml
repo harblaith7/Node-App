@@ -11,6 +11,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: docker build . -t rakyuntm/nest-app
-    - run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password stdin
+    - run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
     - run: docker push rakyuntm/nest-app
 
