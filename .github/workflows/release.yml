@@ -12,4 +12,4 @@ jobs:
       - uses: actions/checkout@v2
       - run: docker build . -t laithharden/nest-app
       - run: echo "${{secrets.DOCKER_HUB_ACCESS_TOKEN}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
-      - run: docker push laithharden/nest-app
+      - run: docker push docker2utkan/nest-app
