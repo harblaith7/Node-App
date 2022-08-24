@@ -32,6 +32,8 @@
 $ npm install
 ```
 
+Hello world app
+
 ## Running the app
 
 ```bash
