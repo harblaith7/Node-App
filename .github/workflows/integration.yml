@@ -2,17 +2,17 @@ name: Integration
 
 on:
   push:
-    branches: [main]
+    branches: [selfhost]
   pull_request:
-    branches: [main]
+    branches: [selfhost]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [12.x, 14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
