@@ -2,9 +2,9 @@ name: Integration
 
 on:
   push:
-    branches: [main]
+    branches: [selfhost]
   pull_request:
-    branches: [main]
+    branches: [selfhost]
 
 jobs:
   build:
