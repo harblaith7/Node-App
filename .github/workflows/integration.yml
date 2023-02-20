@@ -8,18 +8,22 @@ on:
 
 jobs:
   build:
+    # Specify the server
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
+        # Make sure it runs in different node versions
         node-version: [12.x, 14.x, 16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+    # Steps that we need to take to run this job
     steps:
+      # Checkout into feature branch
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
+        # Setup node repo
         uses: actions/setup-node@v2
         with:
+          # Using node versions
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm i
