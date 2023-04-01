@@ -2,9 +2,9 @@ name: Integration
 
 on:
   push:
-    branches: [main]
+    branches: [nodejsbranch]
   pull_request:
-    branches: [main]
+    branches: [nodejsbranch]
 
 jobs:
   build:
@@ -41,3 +41,11 @@ jobs:
           cache: 'npm'
       - run: npm i
       - run: npm run test
+      - uses: actions/checkout@v2
+      - run: docker build . -t visweswarji123/nodeapp
+      - run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
+ 
+      - run: echo "Pushing Docker image to DockerHub..."
+      
+      - run: docker push visweswarji123/nodeapp
+ 
