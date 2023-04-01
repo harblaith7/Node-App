@@ -2,9 +2,9 @@ name: Integration
 
 on:
   push:
-    branches: [main]
+    branches: [nodejsbranch]
   pull_request:
-    branches: [main]
+    branches: [nodejsbranch]
 
 jobs:
   build:
