@@ -24,6 +24,7 @@ jobs:
           cache: 'npm'
       - run: npm i
       - run: npm run build
+      
   unit-tests:
     runs-on: ubuntu-latest
 
