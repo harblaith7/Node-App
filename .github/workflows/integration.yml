@@ -1,24 +1,35 @@
+# This is the name of the workflow
 name: Integration
 
+# The "on" block states which branches the jobs suppose to run on.
+# These jobs will run on the main branch when we run the "push" action command
+# and the "pull_request" action command
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
 
+# These are the actual jobs or tasks that will be run on the codes that we run the
+# "push" and "pull_request" commands or operations on.
+# We are going to run two jobs: "build" job for building the app. and
+# "unit-tests" for testing the application.
+# These two jobs will be run on github runners, ubuntu servers hosted by Github.
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    # The strategy allows us to specifiy multiple versions of node.
+    # This ensures that the build and test run sucessfully in different versions of
+    # application.
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [14.x, 16.x, 18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
@@ -29,15 +40,27 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [14.x, 16.x, 18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
+    # The "steps" block organizes list of things we must do to run these jobs
+    # correctly.
+    # Step 1: First we create an isolated branch for our work enviorment to be
+    # ... we call this branch "feature branch",
+    # Step 2: We checkout the "main" branch of the "Node-App" which contains all the
+    # original source code of the project.
+    # Step 3: Merge feature branch with "main" branch of the "Node-App". Now whenever
+    #   we "push" and "pull_request" from the main branch ... we can perform the "Merge"
+    # operation to update those changes in the "main" branch of the "Node-App".
+    # Step 4: The run command allow us to run or execute commands in the acutal
+    # application we are working on.
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm i
       - run: npm run test
+  # Note: These processes automate the "manual build" and "manual test" process
