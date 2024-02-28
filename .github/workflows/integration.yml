@@ -1,43 +1,29 @@
-name: Integration
+name: Integration #Name of the workflow(optional).
 
-on:
+on: #events or list of event that trigger workflow(push/pull req).
   push:
-    branches: [main]
+    branches: [ "main" ]
   pull_request:
-    branches: [main]
+    branches: [ "main" ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
+    runs-on: ubuntu-latest #tells action which runner to use.
+
+    strategy: #strategy configuration define how jobs should be parallelized or matrix-expanded.
+      matrix: #create matrix builds. used to testing code against multiple environments or configurations.
+        node-version: [14.x, 16.x, 18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - run: npm i
-      - run: npm run build
-  unit-tests:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - run: npm i
-      - run: npm run test
+    #uses: tells action which predefined actions need to retrived.(like task as azure pipeline)
+    - uses: actions/checkout@v3 #accout/repository(checkout into branch)
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3 #setup(installing) node in that ubuntu runner(agent)
+      with: #specify which version of node we want to use.
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    #execute a cmd on the runner.    
+    - run: npm i
+    - run: npm run test
