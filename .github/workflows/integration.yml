@@ -1,13 +1,16 @@
 name: Integration
 
 on:
+  # Run right after the code from the feature branch has merged into the main branch
   push:
     branches: [main]
+  # Run when the code is about to merge from a feature branch to the main branch
   pull_request:
     branches: [main]
 
 jobs:
   build:
+    # Run this workflow on a host running ubuntu lastest
     runs-on: ubuntu-latest
 
     strategy:
@@ -16,14 +19,21 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+      # Use the github action repository called checkout (https://github.com/actions/checkout)
+      # to checkout into our branch
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
+        # Setup the node language (https://github.com/actions/setup-node) for our workflow
+        # There are similar actions for Python, Go, etc
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+      # npm install to install all dependencies
       - run: npm i
+      # Run actual build
       - run: npm run build
+
   unit-tests:
     runs-on: ubuntu-latest
 
